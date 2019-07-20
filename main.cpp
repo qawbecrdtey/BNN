@@ -9,7 +9,7 @@ int main()
 	constexpr std::size_t input_size = 2;
 	constexpr std::size_t output_size = 1;
 
-	std::array<std::size_t, 3> arr = { input_size, 2, output_size };
+	std::array<std::size_t, 4> arr = { input_size, 2, 2, output_size };
 	BNN::Network network(arr);
 	std::unique_ptr<Eigen::Matrix<double, -1, 1>[]> input, output;
 
@@ -34,7 +34,7 @@ int main()
 		}
 		*/
 		output[i] = Eigen::Matrix<double, -1, 1>(output_size);
-		std::cout << (output[i](0) = (((i / 2) ^ (i % 2)) * 2.0) - 1) << std::endl;
+		std::cout << (output[i](0) = ((i / 2) + 4 * (i % 2))) << std::endl;
 	}
 	std::size_t cnt = 0;
 A:
@@ -48,7 +48,7 @@ A:
 		//std::cout << network << '\n' << std::endl;
 		network.backprop(output[i]);
 	}
-	if (cnt == 100) goto B;
+	if (cnt == 30000) goto B;
 	goto A;
 B:
 	for (std::size_t i = 0; i < testcase; i++)
